@@ -36,6 +36,9 @@ jobs:
           fi
       - name: Build migrated Astro website
         uses: withastro/action@v6
+        with:
+          node-version: 24
+          package-manager: npm@latest
       - name: Deploy imported website
         id: deployment
         uses: actions/deploy-pages@v5
