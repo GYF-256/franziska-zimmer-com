@@ -17,6 +17,7 @@ const productionOrigin = 'https://franziska-zimmer.com';
 const basePath = import.meta.env.BASE_URL || '/';
 const originalPath = basePath !== '/' && current.startsWith(basePath) ? '/' + current.slice(basePath.length) : current;
 const canonical = new URL(originalPath, productionOrigin).toString();
+const isHome = ['/', '/de/', '/ja/'].includes(originalPath);
 const privacyLinks = {en:'/privacy-policy/',de:'/de/datenschutzerklaerung/',ja:'/ja/privacypolicy/'};
 const homeLinks = {en:'/',de:'/de/',ja:'/ja/'};
 ---
@@ -39,7 +40,7 @@ const homeLinks = {en:'/',de:'/de/',ja:'/ja/'};
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Serif:wght@600&family=Playfair+Display:wght@800&family=Barlow+Semi+Condensed:wght@500&display=swap" rel="stylesheet" />
   </head>
-  <body class={originalPath === '/' ? 'is-home' : undefined}>
+  <body class={isHome ? 'is-home' : undefined}>
     <a class="skip" href="#main">Skip to content</a>
     <header class="site-header">
       <div class="shell header-wrap">
@@ -75,7 +76,7 @@ const homeLinks = {en:'/',de:'/de/',ja:'/ja/'};
         </details>
       </div>
     </header>
-    <main class={originalPath === '/' ? 'home-main' : 'shell page-main'} id="main"><slot /></main>
+    <main class={isHome ? 'home-main' : 'shell page-main'} id="main"><slot /></main>
     <footer class="site-footer">
       <nav class="footer-nav" aria-label="Footer menu">
         <a href={previewPath(homeLinks[locale])}>{locale === 'ja' ? 'ホーム' : locale === 'de' ? 'Startseite' : 'Home'}</a>
