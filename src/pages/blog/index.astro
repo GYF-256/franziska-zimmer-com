@@ -1,15 +1,16 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { posts } from '../../lib/content.js';
+import { previewPath } from '../../lib/paths.js';
 ---
 <BaseLayout title="Blog | Franziska Zimmer" description="Articles and insights from Franziska Zimmer." lang="en">
   <div class="intro"><p class="eyebrow">ARTICLES</p><h1>Blog</h1><p>Research-related commentary and articles originally published on WordPress.</p></div>
   <div class="cards">
     {posts.map((post) => <article class="card">
       <time datetime={post.date}>{post.date}</time>
-      <h2><a href={post.path}>{post.title}</a></h2>
+      <h2><a href={previewPath(post.path)}>{post.title}</a></h2>
       <p>{post.description}</p>
-      <a class="read" href={post.path}>Read article →</a>
+      <a class="read" href={previewPath(post.path)}>Read article →</a>
     </article>)}
   </div>
 </BaseLayout>
