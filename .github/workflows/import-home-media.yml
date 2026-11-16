@@ -1,0 +1,56 @@
+name: Import homepage media
+on:
+  push:
+    paths:
+      - .github/workflows/import-home-media.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  download-home-images:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download public homepage images into the repository
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from urllib.parse import quote
+          from urllib.request import Request, urlopen
+
+          assets = [
+              ('https://franziska-zimmer.com/wp-content/uploads/2026/03/cropped-名称未設定のデザイン1-317x106.png', 'public/wp-content/uploads/2026/03/cropped-名称未設定のデザイン1-317x106.png'),
+              ('https://media.wired.com/photos/65136deab59699fef75aa883/3:2/w_2240,c_limit/Tik-Tok-24:7-Livestream-Culture-1405560217.jpg', 'public/media/wired-livestream.jpg'),
+              ('https://imageio.forbes.com/specials-images/imageserve/611362f7b75fb1c39347ab93/Businessman-holding-paper-airplane/0x0.jpg?width=960&dpr=2', 'public/media/forbes-livestream.jpg'),
+              ('https://www.compliancecorylated.com/wp-content/uploads/2026/02/DK-Kalshi.png.webp', 'public/media/compliance-prediction.webp'),
+          ]
+          for url, filename in assets:
+              target = Path(filename)
+              if target.exists() and target.stat().st_size > 500:
+                  print('Already exists:', target)
+                  continue
+              try:
+                  encoded = quote(url, safe=':/?&=%+,')
+                  req = Request(encoded, headers={'User-Agent':'Mozilla/5.0 (compatible; public website asset migration)'})
+                  with urlopen(req, timeout=25) as res:
+                      data = res.read(8 * 1024 * 1024)
+                      content_type = res.headers.get('content-type','')
+                  valid = data.startswith((b'\xff\xd8\xff', b'\x89PNG\r\n\x1a\n', b'RIFF'))
+                  if not valid or len(data) < 500:
+                      print('Skipped non-image response:', url, content_type)
+                      continue
+                  target.parent.mkdir(parents=True,exist_ok=True)
+                  target.write_bytes(data)
+                  print('Downloaded:', target, len(data), 'bytes')
+              except Exception as exc:
+                  print('Could not retrieve image:', url, str(exc))
+          PY
+      - name: Commit imported static images
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/media public/wp-content/uploads/2026/03/ 2>/dev/null || true
+          if ! git diff --cached --quiet; then
+            git commit -m "Import original homepage logo and media thumbnails"
+            git push
+          fi
