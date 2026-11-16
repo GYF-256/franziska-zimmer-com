@@ -49,7 +49,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add public/media public/wp-content/uploads/2026/03/ 2>/dev/null || true
+          git add -A -- public
           if ! git diff --cached --quiet; then
             git commit -m "Import original homepage logo and media thumbnails"
             git push
