@@ -1,4 +1,6 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import ImportedContent from '../components/ImportedContent.astro';
+import { getByPath } from '../lib/content.js';
+const item = getByPath('/research/');
 ---
-<BaseLayout title="Research | Franziska Zimmer"><h1>Research</h1><p>Verified publications and projects will be imported from WordPress.</p></BaseLayout>
+<ImportedContent item={item} />
