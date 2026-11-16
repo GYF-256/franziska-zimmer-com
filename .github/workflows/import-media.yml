@@ -1,0 +1,35 @@
+name: Import vetted WordPress media (one-time)
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: false
+jobs:
+  import-build-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Check out current repository
+        uses: actions/checkout@v4
+      - name: Extract only approved public media
+        run: python scripts/import-media.py
+      - name: Commit imported media and remove temporary ZIP
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A -- migration-media.zip public/wp-content/uploads
+          if ! git diff --cached --quiet; then
+            git commit -m "assets: import vetted published WordPress images"
+            git push
+          fi
+      - name: Build migrated Astro website
+        uses: withastro/action@v6
+      - name: Deploy imported website
+        id: deployment
+        uses: actions/deploy-pages@v5
