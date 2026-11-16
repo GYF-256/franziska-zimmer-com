@@ -1,32 +1,32 @@
 # Franziska Zimmer — academic website
 
-Astro v6 static website migrated from WordPress, hosted via GitHub Pages.
+Astro v6 static website migrated from the published WordPress content, for GitHub Pages.
 
-## Current migrated content
+## Imported content
 
-- 15 **published** WordPress pages (English, German, Japanese: five each).
-- 144 **published** English blog posts. WordPress URLs are preserved.
-- All original published text is in `src/data/import-0.json` through `import-8.json`.
-- Routes are generated in `src/pages/[...slug].astro` and the explicit home/about/research/contact components.
-- Pages have canonical tags, 3-language equivalents where applicable, a blog index, mobile-friendly styles, sitemap, and robots.txt.
-- The previously installed WordPress contact form cannot work on static hosting. A localized notice is displayed until a replacement is chosen.
+- **15 published pages**: five each in English, German, and Japanese.
+- **144 published English blog posts**, at their original WordPress URLs.
+- Published text is stored in `src/data/import-0.json` through `import-8.json`.
+- Routing: `src/pages/[...slug].astro` plus home/about/research/contact page files.
+- English/German/Japanese navigation, verified page translations, blog listing, canonical metadata, sitemap and robots.txt.
+- The WordPress form shortcode has been replaced with a localized notice. A new static-compatible contact method is still required.
 
-## One remaining public-media step (browser only)
+## Images: automatic import or fallback ZIP
 
-1. Download the **vetted, published media ZIP** prepared for migration from the ChatGPT conversation (not the original uploads.zip containing private logs and plugin files).
-2. On GitHub, open this repository → **Add file** → **Upload files**, upload the vetted ZIP at the repository root named exactly `migration-media.zip`, then commit.
-3. Open **Actions → Import vetted WordPress media (one-time) → Run workflow** on main. This verifies the archive's paths and extensions, extracts files into `public/wp-content/uploads/`, commits them, removes the source ZIP from the working tree, and builds/deploys the site. Git history retains the uploaded ZIP; it must contain only already-public images.
+The one-time workflow **Actions → Import vetted WordPress media (one-time)** downloads exactly ten already-published photos/logos from the existing WordPress site. Every image is checked against the original ZIP backup using its SHA-256 hash before it is committed to `public/wp-content/uploads/`. A change to the import script triggers the workflow automatically; it can also be run manually.
 
-The import workflow requires GitHub Actions to have **read/write repository permissions**. Do not upload the complete WordPress XML export, `wp-config.php`, databases, caches, or `uploads.zip` to this public repository.
+If GitHub Actions cannot access the old site, download `franziska-public-media.zip` from the ChatGPT conversation. In GitHub's web interface, choose **Add file → Upload files**, upload it at repository root as `migration-media.zip`, and commit. Then rerun the media import workflow. Never upload the original `uploads.zip` containing plugin caches or logs.
 
-## GitHub Pages
+## Deployment
 
-In **Settings → Pages → Build and deployment → Source**, choose **GitHub Actions**. The ordinary deployment workflow is `.github/workflows/deploy.yml`. Leave Cloudflare DNS unchanged until Pages deployment and review are complete. The Astro `site` is configured for `https://franziska-zimmer.com`; `public/CNAME` also contains this hostname.
+Go to **Settings → Pages → Build and deployment → Source** and choose **GitHub Actions**. `.github/workflows/deploy.yml` builds and deploys Astro. The production host is configured as `https://franziska-zimmer.com`, but **do not alter Cloudflare DNS until Pages deployment and content review are complete**.
 
-## Working with Copilot Free (browser only)
+The media importer needs repository write permission for workflows. If it fails to push, check **Settings → Actions → General → Workflow permissions**.
 
-Edit source in https://github.dev/GYF-256/franziska-zimmer-com and commit through Source Control. Use GitHub Actions for builds; github.dev itself has no local terminal.
+## Browser-only maintenance
 
-## Migration safety
+Use https://github.dev/GYF-256/franziska-zimmer-com with GitHub Copilot Free, commit files via Source Control, and let GitHub Actions run the builds. No local installation is required.
 
-Only published pages and posts have been transferred. No private pages or author credentials were imported. Backups must remain off public GitHub. Review imported HTML/CSS against the live WordPress site, especially media-heavy pages and the contact form, before DNS cutover. See `docs/CONTENT_IMPORT.md`.
+## Security / remaining work
+
+Only public WordPress pages/posts and selected public images are migrated. Three private pages, passwords, account data, WordPress plugins, PHP, logs, and database dumps are excluded. Keep the current WordPress site and private backups until the new Pages site has been reviewed, including images, long-form articles, menus, SEO, the privacy policy, external links, and the disabled contact form. See `docs/CONTENT_IMPORT.md`.
