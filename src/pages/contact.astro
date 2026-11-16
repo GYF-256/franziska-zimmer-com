@@ -1,4 +1,6 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import ImportedContent from '../components/ImportedContent.astro';
+import { getByPath } from '../lib/content.js';
+const item = getByPath('/contact/');
 ---
-<BaseLayout title="Contact | Franziska Zimmer"><h1>Contact</h1><p>Verified contact information will be added after the WordPress export. Static GitHub Pages does not process WordPress contact forms.</p></BaseLayout>
+<ImportedContent item={item} />
