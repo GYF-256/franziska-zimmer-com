@@ -1,6 +1,20 @@
 ---
-import ImportedContent from '../components/ImportedContent.astro';
-import { getByPath } from '../lib/content.js';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getByPath, translationsFor } from '../lib/content.js';
+import { rewriteImportedHtml, previewPath } from '../lib/paths.js';
+import researchMarkup from '../data/research-original.html?raw';
+import '../styles/research.css';
+
 const item = getByPath('/research/');
+if (!item) throw new Error('English Research page not found in WordPress export');
+const body = rewriteImportedHtml(researchMarkup);
 ---
-<ImportedContent item={item} />
+<BaseLayout
+  title="Research | Franziska Zimmer"
+  description={item.description}
+  lang="en"
+  alternates={translationsFor(item.path)}
+>
+  <div class="fz-research" set:html={body} />
+  <script is:inline defer src={previewPath('/research-publications.js')}></script>
+</BaseLayout>
