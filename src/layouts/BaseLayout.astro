@@ -1,4 +1,5 @@
 ---
+import { previewPath } from '../lib/paths.js';
 const {
   title = 'Franziska Zimmer',
   description = 'Academic website of Franziska Zimmer',
@@ -12,7 +13,10 @@ const menus = {
  ja: [{name:'ホーム',href:'/ja/'},{name:'プロフィール',href:'/ja/profile/'},{name:'研究実績',href:'/ja/kenkyu/'},{name:'ブログ',href:'/blog/'},{name:'お問い合わせ',href:'/ja/form/'}]
 };
 const current = Astro.url.pathname;
-const canonical = new URL(current, Astro.site).toString();
+const productionOrigin = 'https://franziska-zimmer.com';
+const basePath = import.meta.env.BASE_URL || '/';
+const originalPath = basePath !== '/' && current.startsWith(basePath) ? '/' + current.slice(basePath.length) : current;
+const canonical = new URL(originalPath, productionOrigin).toString();
 const privacyLinks = {en:'/privacy-policy/',de:'/de/datenschutzerklaerung/',ja:'/ja/privacypolicy/'};
 const homeLinks = {en:'/',de:'/de/',ja:'/ja/'};
 ---
@@ -24,8 +28,8 @@ const homeLinks = {en:'/',de:'/de/',ja:'/ja/'};
     <meta name="description" content={description} />
     <meta name="theme-color" content="#ffffff" />
     <link rel="canonical" href={canonical} />
-    <link rel="icon" href="/wp-content/uploads/2026/03/cropped-logo2-32x32.png" sizes="32x32" />
-    {alternates.map((entry) => <link rel="alternate" hreflang={entry.lang} href={new URL(entry.href, Astro.site).toString()} />)}
+    <link rel="icon" href={previewPath("/wp-content/uploads/2026/03/cropped-logo2-32x32.png")} sizes="32x32" />
+    {alternates.map((entry) => <link rel="alternate" hreflang={entry.lang} href={new URL(entry.href, productionOrigin).toString()} />)}
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -36,21 +40,21 @@ const homeLinks = {en:'/',de:'/de/',ja:'/ja/'};
     <a class="skip" href="#main">Skip to content</a>
     <header class="site-header">
       <div class="shell header-wrap">
-        <a class="brand" href={homeLinks[locale]}>Franziska Zimmer<span>Information Science · HCI</span></a>
+        <a class="brand" href={previewPath(homeLinks[locale])}>Franziska Zimmer<span>Information Science · HCI</span></a>
         <nav class="nav" aria-label="Main navigation">
-          {menus[locale].map(link => <a href={link.href} aria-current={current === link.href ? 'page' : undefined}>{link.name}</a>)}
+          {menus[locale].map(link => <a href={previewPath(link.href)} aria-current={current === link.href ? 'page' : undefined}>{link.name}</a>)}
         </nav>
         <div class="lang-nav" aria-label="Language choices">
           {(['en','de','ja']).map((language) => {
             const equivalent = alternates.find(a => a.lang === language);
             const target = equivalent?.href ?? homeLinks[language];
-            return <a href={target} lang={language} aria-label={'Language: ' + language} aria-current={locale === language ? 'true' : undefined}>{language.toUpperCase()}</a>
+            return <a href={previewPath(target)} lang={language} aria-label={'Language: ' + language} aria-current={locale === language ? 'true' : undefined}>{language.toUpperCase()}</a>
           })}
         </div>
       </div>
     </header>
     <main class="shell" id="main"><slot /></main>
-    <footer class="site-footer"><div class="shell footer-inner"><span>© {new Date().getFullYear()} Franziska Zimmer</span><a href={privacyLinks[locale]}>{locale === 'ja' ? 'プライバシーポリシー' : locale === 'de' ? 'Datenschutz' : 'Privacy Policy'}</a></div></footer>
+    <footer class="site-footer"><div class="shell footer-inner"><span>© {new Date().getFullYear()} Franziska Zimmer</span><a href={previewPath(privacyLinks[locale])}>{locale === 'ja' ? 'プライバシーポリシー' : locale === 'de' ? 'Datenschutz' : 'Privacy Policy'}</a></div></footer>
   </body>
 </html>
 <style is:global>
