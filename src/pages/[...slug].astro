@@ -1,12 +1,18 @@
 ---
 import ImportedContent from '../components/ImportedContent.astro';
-import { content } from '../lib/content.js';
-const reserved = new Set(['/', '/about/', '/research/', '/contact/']);
+import { content as publishedContent } from '../lib/content.js';
+
 export function getStaticPaths() {
-  return content
-    .filter((item) => !reserved.has(item.path))
-    .map((item) => ({ params: {slug: item.path.replace(/^\/|\/$/g, '')}, props: {item} }));
+  // Astro evaluates this exported function in an isolated build context.
+  // Keep values it references inside the function rather than frontmatter scope.
+  const reservedPaths = new Set(['/', '/about/', '/research/', '/contact/']);
+  return publishedContent
+    .filter((item) => !reservedPaths.has(item.path))
+    .map((item) => ({
+      params: { slug: item.path.replace(/^\/|\/$/g, '') },
+      props: { item },
+    }));
 }
-const {item} = Astro.props;
+const { item } = Astro.props;
 ---
 <ImportedContent item={item} />
