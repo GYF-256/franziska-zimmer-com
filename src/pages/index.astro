@@ -1,6 +1,159 @@
 ---
-import ImportedContent from '../components/ImportedContent.astro';
-import { getByPath } from '../lib/content.js';
-const item = getByPath('/');
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { previewPath } from '../lib/paths.js';
+
+const coverage = [
+  {
+    kind: 'INTERVIEW ARTICLE',
+    source: 'WIRED',
+    title: 'TikTok Stars Are Turning to 24/7 Livestreams for Cash',
+    href: 'https://www.wired.com/story/tiktok-live-247-money/',
+    image: 'https://media.wired.com/photos/65136deab59699fef75aa883/3:2/w_2240,c_limit/Tik-Tok-24:7-Livestream-Culture-1405560217.jpg'
+  },
+  {
+    kind: 'MEDIA COVERAGE',
+    source: 'Forbes',
+    title: 'Live Streamers And The Boredom Factor',
+    href: 'https://www.forbes.com/sites/tomokoyokoi/2021/08/11/live-streamers-and-the-boredom-factor/?sh=e03c2046ece2',
+    image: 'https://imageio.forbes.com/specials-images/imageserve/611362f7b75fb1c39347ab93/Businessman-holding-paper-airplane/0x0.jpg?width=960&dpr=2'
+  },
+  {
+    kind: 'INTERVIEW ARTICLE',
+    source: 'Compliance Corylated',
+    title: 'Twitchʼs gamification of prediction markets puts youth at risk',
+    href: 'https://www.compliancecorylated.com/news/twitch%ca%bcs-gamification-of-prediction-markets-puts-youth-at-risk/',
+    image: 'https://www.compliancecorylated.com/wp-content/uploads/2026/02/DK-Kalshi.png.webp'
+  }
+];
+
+const academicProfiles = [
+  {name:'Google Scholar',href:'https://scholar.google.com/citations?user=Lz2n-H8AAAAJ',image:'/wp-content/uploads/2026/02/scholar_logo_64dp.png'},
+  {name:'ResearchGate',href:'https://www.researchgate.net/profile/Franziska-Zimmer',image:'/wp-content/uploads/2026/02/ResearchGate_logo.svg.png'},
+  {name:'ACM Digital Library',href:'https://dl.acm.org/profile/99659969108',image:'/wp-content/uploads/2026/02/ACM-DL-Logo-flat-black-URL-small.jpeg'},
+  {name:'ORCID',href:'https://orcid.org/0000-0002-4670-5175',image:'/wp-content/uploads/2026/04/orcid.png'},
+  {name:'LinkedIn',href:'https://www.linkedin.com/in/franziska-room',image:'/wp-content/uploads/2026/04/LinkedIn_logo.svg_-scaled.png'}
+];
 ---
-<ImportedContent item={item} />
+<BaseLayout
+  title="Franziska Zimmer"
+  description="Franziska Zimmer is an information scientist researching user behavior in digital systems and human-computer interaction."
+  lang="en"
+  alternates={[{lang:'en',href:'/'},{lang:'de',href:'/de/'},{lang:'ja',href:'/ja/'}]}
+>
+  <section class="home-hero" aria-label="Introduction">
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <h6>information scientist</h6>
+        <div class="hero-divider" aria-hidden="true"></div>
+        <h1>Franziska Zimmer</h1>
+      </div>
+      <div class="hero-portrait">
+        <img
+          src={previewPath('/wp-content/uploads/2026/02/FranziskaZimmer-002.jpg')}
+          alt="Franziska Zimmer"
+          width="1317"
+          height="1800"
+          fetchpriority="high"
+        />
+      </div>
+    </div>
+  </section>
+
+  <div class="home-lower">
+    <section class="article-section" aria-label="Interviews and media coverage">
+      <div class="section-label">INTERVIEW ARTICLE &amp; MEDIA COVERAGE</div>
+      <div class="article-grid">
+        {coverage.map(article => (
+          <article class="article-card">
+            <div class="article-thumb">
+              <a href={article.href} target="_blank" rel="noopener noreferrer">
+                <img src={article.image} alt="" loading="lazy" />
+              </a>
+            </div>
+            <div class="article-body">
+              <div class="article-meta">
+                <span class="article-type">{article.kind}</span>
+                <span class="article-source">{article.source}</span>
+              </div>
+              <h3 class="article-title">
+                <a href={article.href} target="_blank" rel="noopener noreferrer">{article.title}</a>
+              </h3>
+              <a class="read-more" href={article.href} target="_blank" rel="noopener noreferrer">Read Article →</a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="academic-links" aria-label="Academic and professional profiles">
+      {academicProfiles.map(profile => (
+        <div class="profile-card">
+          <a href={profile.href} target="_blank" rel="noopener noreferrer" aria-label={profile.name}>
+            <img src={previewPath(profile.image)} alt={profile.name} loading="lazy" />
+          </a>
+        </div>
+      ))}
+    </section>
+
+    <section class="fz-hero" aria-label="About my research">
+      <div class="fz-card">
+        <h2 class="fz-title">I study user behavior in digital systems using large-scale data.</h2>
+        <div class="fz-text">
+          <p>I am Franziska Zimmer, a researcher in information science and human-computer interaction, focusing on the analysis of user behavior through log data, surveys, and computational methods. My work examines how users interact with digital systems, how behavioral patterns can be identified at scale, and how these patterns differ across users and environments.</p>
+          <p>My current research focuses on behavioral data analysis in digital systems, including work on behavioral biometrics and user interaction patterns. I analyze large-scale datasets to understand how users behave within complex systems and how interaction data can be used to distinguish and characterize user behavior.</p>
+          <p>Previously, I conducted research on user behavior in online platforms, including social media and misinformation. Using a combination of content analysis, surveys, and behavioral data, I studied how users interact with information and how behavior differs across platforms and user groups. Through my research and teaching, I aim to better understand user behavior in real-world digital environments and contribute to data-driven insights about how people interact with modern systems.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+.home-hero{min-height:100vh;background:#e9f8f9;position:relative;display:flex;align-items:center}
+.hero-inner{width:min(calc(100% - 40px),1200px);margin:0 auto;min-height:100vh;display:grid;grid-template-columns:50.291% minmax(0,1fr);align-items:center;padding-top:70px}
+.hero-copy{display:flex;flex-direction:column;justify-content:center;min-width:0}
+.hero-copy h6{text-transform:uppercase;font-family:'Barlow Semi Condensed',sans-serif;font-size:17px;font-weight:500;line-height:1.25;color:#454f5e;margin:0 0 20px}
+.hero-divider{width:50px;border-top:2px solid #454f5e;margin:5px 0 50px}
+.hero-copy h1{font:800 clamp(3.5rem,5.8vw,5.1875rem)/1.4 'Playfair Display',Georgia,serif;color:#0f172a;margin:0;overflow-wrap:normal}
+.hero-portrait{min-width:0;display:flex;align-items:center;justify-content:center;padding:150px 0}
+.hero-portrait img{width:100%;max-width:550px;aspect-ratio:1/1;object-fit:cover;object-position:center 37%;border-radius:500px;box-shadow:0 0 10px rgba(0,0,0,.5);display:block;margin:-50px}
+.home-lower{background:#e9f8f9;padding:0 0 70px}
+.article-section{max-width:1200px;margin:auto;padding:100px 20px 20px;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif}
+.section-label{font-size:13px;letter-spacing:4px;font-weight:700;color:#777;margin-bottom:22px}
+.article-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:26px}
+.article-card{min-width:0;background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.08);transition:all .3s ease}
+.article-card:hover{transform:translateY(-6px);box-shadow:0 20px 45px rgba(0,0,0,.15)}
+.article-thumb{overflow:hidden}.article-thumb img{width:100%;height:auto;display:block;transition:transform .5s}
+.article-card:hover img{transform:scale(1.05)}
+.article-body{padding:20px}.article-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.article-type{font-size:11px;letter-spacing:2px;color:#888;font-weight:700}
+.article-source{font-size:12px;font-weight:700;color:#fff;background:#222;padding:6px 12px;border-radius:20px;white-space:nowrap}
+.article-title{font-family:inherit;font-size:20px!important;font-weight:700;line-height:1.45;margin:14px 0;color:#111}
+.article-title a{text-decoration:none;color:#111}.article-title a:hover,.read-more:hover{color:#6a5cff}
+.read-more{font-size:13px;text-decoration:none;color:#555;font-weight:600}
+.academic-links{max-width:1200px;margin:0 auto;display:flex;gap:24px;padding:20px;flex-wrap:nowrap}
+.profile-card{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 10px 25px rgba(0,0,0,.08);transition:all .3s ease;border:1px solid rgba(0,0,0,.05);flex:1;min-width:0}
+.profile-card:hover{transform:translateY(-5px);box-shadow:0 18px 40px rgba(0,0,0,.15)}
+.profile-card a{display:flex;align-items:center;justify-content:center;width:100%;aspect-ratio:3/1;padding:10px}
+.profile-card img{max-width:70%;max-height:70%;width:auto;height:auto;object-fit:contain;transition:transform .3s ease}
+.profile-card:hover img{transform:scale(1.06)}
+.fz-hero{max-width:1100px;margin:auto;padding:40px 22px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif}
+.fz-card{background:linear-gradient(135deg,#fff 0%,#f6f8ff 100%);border-radius:26px;padding:44px;box-shadow:0 20px 50px rgba(30,40,80,.08);border:1px solid rgba(0,0,0,.05)}
+.fz-title{font-family:inherit;font-size:42px;line-height:1.15;font-weight:800;margin:0 0 20px;color:#151821}
+.fz-text{font-size:17px;line-height:1.9;color:#404558;max-width:760px}.fz-text p{margin:0 0 18px}
+@media(max-width:1024px){
+ .hero-inner{padding-inline:5px;min-height:80vh}.home-hero{min-height:80vh}.hero-portrait{padding:150px 0}
+ .article-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .academic-links{flex-wrap:wrap}.profile-card{flex:1 1 calc(50% - 12px)}
+}
+@media(max-width:767px){
+ .home-hero{min-height:0}.hero-inner{min-height:0;display:flex;flex-direction:column-reverse;padding:0 0 60px}
+ .hero-portrait{width:100%;padding:120px 0 0}.hero-portrait img{width:min(70vw,390px);margin:0 0 0 24px}
+ .hero-copy{width:100%;padding-top:25px}.hero-copy h1{font-size:45px}
+ .hero-divider{margin-bottom:20px}
+ .article-section{padding-top:65px}.article-grid{grid-template-columns:1fr}
+ .academic-links{flex-direction:column;gap:16px;padding:16px}
+ .profile-card{width:100%;flex:none}.profile-card a{aspect-ratio:3/1}
+ .fz-card{padding:30px}.fz-title{font-size:32px}.fz-text{font-size:16px}
+}
+</style>
