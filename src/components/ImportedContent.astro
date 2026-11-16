@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { translationsFor } from '../lib/content.js';
+const { item } = Astro.props;
+if (!item) throw new Error('Published WordPress page was not found');
+const post = item.type === 'post';
+const containsH1 = /<h1\b/i.test(item.html);
+const notices = {
+  en: 'The previous WordPress contact form is not yet available on this static site.',
+  de: 'Das bisherige WordPress-Kontaktformular ist auf dieser statischen Website noch nicht verfügbar.',
+  ja: '旧WordPressのお問い合わせフォームは、静的サイトへの移行後はまだ利用できません。'
+};
+const body = item.html.replace(/<p class="form-notice">[\s\S]*?<\/p>/g, '<p class="form-notice">' + (notices[item.lang] || notices.en) + '</p>');
+---
+<BaseLayout title={item.title === 'Home' ? 'Franziska Zimmer' : item.title + ' | Franziska Zimmer'} description={item.description} lang={item.lang} alternates={translationsFor(item.path)}>
+  <article class:list={['imported-article', { 'is-post': post }]}>
+    {post && <header class="post-intro"><p class="eyebrow">Blog</p><h1>{item.title}</h1>{item.date && <time datetime={item.date}>{item.date}</time>}</header>}
+    {!post && !containsH1 && <h1>{item.title}</h1>}
+    <div class="imported-body" set:html={body} />
+    {post && <p class="back"><a href="/blog/">← Back to blog</a></p>}
+  </article>
+</BaseLayout>
+<style>
+.imported-article {max-width:100%;min-width:0}
+.post-intro {margin-bottom:2.5rem}
+.post-intro h1 {font-size:clamp(1.8rem,4.5vw,3rem)}
+.post-intro time {color:#64748b;font-size:.9rem}
+.eyebrow {font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#4b5fab}
+.back {margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e2e8f0}
+</style>
