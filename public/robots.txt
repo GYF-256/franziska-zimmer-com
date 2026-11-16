@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://franziska-zimmer.com/sitemap.xml
