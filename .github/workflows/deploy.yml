@@ -46,7 +46,16 @@ jobs:
             echo "ERROR: Homepage CSS missing from generated CSS assets"
             exit 1
           fi
-          echo "Homepage and CSS assets verified"
+          # About must retain Elementor's complete content hierarchy, not just text.
+          test -s dist/about/index.html
+          grep -q 'data-elementor-id="269"' dist/about/index.html
+          grep -q 'profile-timeline' dist/about/index.html
+          grep -q 'Academic Service' dist/about/index.html
+          if ! grep -Rq 'fz-about' dist/_astro/; then
+            echo "ERROR: About page layout CSS is missing from the generated assets"
+            exit 1
+          fi
+          echo "Homepage and About markup/CSS assets verified"
       - name: Upload verified Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
