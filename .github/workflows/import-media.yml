@@ -1,5 +1,8 @@
 name: Import vetted WordPress media (one-time)
 on:
+  push:
+    paths:
+      - scripts/import-media.py
   workflow_dispatch:
 permissions:
   contents: write
@@ -17,7 +20,7 @@ jobs:
     steps:
       - name: Check out current repository
         uses: actions/checkout@v4
-      - name: Extract only approved public media
+      - name: Fetch or extract ten vetted public WordPress images
         run: python scripts/import-media.py
       - name: Commit imported media and remove temporary ZIP
         run: |
