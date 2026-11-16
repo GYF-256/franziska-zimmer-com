@@ -26,7 +26,10 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A -- migration-media.zip public/wp-content/uploads
+          git add -A -- public/wp-content/uploads
+          if git ls-files --error-unmatch migration-media.zip >/dev/null 2>&1; then
+            git add -A -- migration-media.zip
+          fi
           if ! git diff --cached --quiet; then
             git commit -m "assets: import vetted published WordPress images"
             git push
