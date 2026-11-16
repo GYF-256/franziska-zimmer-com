@@ -21,6 +21,17 @@ jobs:
         with:
           node-version: 24
           package-manager: npm@latest
+      - name: Verify generated homepage and migrated media
+        run: |
+          test -s dist/index.html
+          grep -q "TikTok Stars Are Turning" dist/index.html
+          grep -q "Google Scholar" dist/index.html
+          grep -q "I study user behavior in digital systems" dist/index.html
+          test -s dist/wp-content/uploads/2026/02/FranziskaZimmer-002.jpg
+          test -s "dist/wp-content/uploads/2026/03/cropped-名称未設定のデザイン1-317x106.png"
+          test -s dist/media/wired-livestream.jpg
+          test -s dist/media/forbes-livestream.jpg
+          test -s dist/media/compliance-prediction.webp
   deploy:
     needs: build
     runs-on: ubuntu-latest
