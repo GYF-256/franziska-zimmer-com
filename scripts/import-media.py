@@ -64,3 +64,5 @@ for name, data in assets.items():
 if ARCHIVE.exists():
     ARCHIVE.unlink()
 print("All ten vetted images imported successfully.")
+
+# Initial automated run: fetch only the ten published and SHA-256-verified media files.
