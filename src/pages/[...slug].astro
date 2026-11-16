@@ -1,0 +1,12 @@
+---
+import ImportedContent from '../components/ImportedContent.astro';
+import { content } from '../lib/content.js';
+const reserved = new Set(['/', '/about/', '/research/', '/contact/']);
+export function getStaticPaths() {
+  return content
+    .filter((item) => !reserved.has(item.path))
+    .map((item) => ({ params: {slug: item.path.replace(/^\/|\/$/g, '')}, props: {item} }));
+}
+const {item} = Astro.props;
+---
+<ImportedContent item={item} />
