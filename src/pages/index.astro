@@ -1,4 +1,6 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import ImportedContent from '../components/ImportedContent.astro';
+import { getByPath } from '../lib/content.js';
+const item = getByPath('/');
 ---
-<BaseLayout title="Franziska Zimmer | Home"><h1>Franziska Zimmer</h1><p>Academic website</p><p>The existing WordPress biography and multilingual content will be migrated here after export and verification.</p><p><a href="/research/">Research</a> · <a href="/about/">About</a> · <a href="/contact/">Contact</a></p></BaseLayout>
+<ImportedContent item={item} />
