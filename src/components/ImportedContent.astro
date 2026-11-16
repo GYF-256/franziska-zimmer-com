@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { translationsFor } from '../lib/content.js';
+import { rewriteImportedHtml, previewPath } from '../lib/paths.js';
 const { item } = Astro.props;
 if (!item) throw new Error('Published WordPress page was not found');
 const post = item.type === 'post';
@@ -10,14 +11,14 @@ const notices = {
   de: 'Das bisherige WordPress-Kontaktformular ist auf dieser statischen Website noch nicht verfügbar.',
   ja: '旧WordPressのお問い合わせフォームは、静的サイトへの移行後はまだ利用できません。'
 };
-const body = item.html.replace(/<p class="form-notice">[\s\S]*?<\/p>/g, '<p class="form-notice">' + (notices[item.lang] || notices.en) + '</p>');
+const body = rewriteImportedHtml(item.html.replace(/<p class="form-notice">[\s\S]*?<\/p>/g, '<p class="form-notice">' + (notices[item.lang] || notices.en) + '</p>'));
 ---
 <BaseLayout title={item.title === 'Home' ? 'Franziska Zimmer' : item.title + ' | Franziska Zimmer'} description={item.description} lang={item.lang} alternates={translationsFor(item.path)}>
   <article class:list={['imported-article', { 'is-post': post }]}>
     {post && <header class="post-intro"><p class="eyebrow">Blog</p><h1>{item.title}</h1>{item.date && <time datetime={item.date}>{item.date}</time>}</header>}
     {!post && !containsH1 && <h1>{item.title}</h1>}
     <div class="imported-body" set:html={body} />
-    {post && <p class="back"><a href="/blog/">← Back to blog</a></p>}
+    {post && <p class="back"><a href={previewPath("/blog/")}>← Back to blog</a></p>}
   </article>
 </BaseLayout>
 <style>
