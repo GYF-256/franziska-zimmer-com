@@ -55,7 +55,19 @@ jobs:
             echo "ERROR: About page layout CSS is missing from the generated assets"
             exit 1
           fi
-          echo "Homepage and About markup/CSS assets verified"
+          # Research page must contain full Elementor structure and live publication controls.
+          test -s dist/research/index.html
+          grep -q 'data-elementor-id="14"' dist/research/index.html
+          grep -q 'scholarTbody' dist/research/index.html
+          grep -q 'yearButtons' dist/research/index.html
+          grep -q 'View on Google Scholar' dist/research/index.html
+          test -s dist/research-publications.js
+          grep -q 'renderRows(initial)' dist/research-publications.js
+          if ! grep -Rq 'fz-research' dist/_astro/; then
+            echo "ERROR: Research page layout CSS missing from generated assets"
+            exit 1
+          fi
+          echo "Homepage, About and Research markup/CSS/JS verified"
       - name: Upload verified Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
