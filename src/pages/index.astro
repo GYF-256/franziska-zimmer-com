@@ -110,20 +110,20 @@ const academicProfiles = [
 
 <style>
 .home-hero{min-height:100vh;background:#e9f8f9;position:relative;display:flex;align-items:center}
-.hero-inner{width:min(calc(100% - 40px),1200px);margin:0 auto;min-height:100vh;display:grid;grid-template-columns:50.291% minmax(0,1fr);align-items:center;padding-top:70px}
+.hero-inner{width:min(calc(100% - 40px),1200px);margin:0 auto;min-height:100vh;display:grid;grid-template-columns:50.291% minmax(0,1fr);align-items:center;padding-top:70px;gap:0}
 .hero-copy{display:flex;flex-direction:column;justify-content:center;min-width:0}
 .hero-copy h6{text-transform:uppercase;font-family:'Barlow Semi Condensed',sans-serif;font-size:17px;font-weight:500;line-height:1.25;color:#454f5e;margin:0 0 20px}
 .hero-divider{width:50px;border-top:2px solid #454f5e;margin:5px 0 50px}
 .hero-copy h1{font:800 clamp(3.5rem,5.8vw,5.1875rem)/1.4 'Playfair Display',Georgia,serif;color:#0f172a;margin:0;overflow-wrap:normal}
 .hero-portrait{min-width:0;display:flex;align-items:center;justify-content:center;padding:150px 0}
-.hero-portrait img{width:100%;max-width:550px;height:auto;border-radius:500px;box-shadow:0 0 10px rgba(0,0,0,.5);display:block;margin:-50px}
+.hero-portrait img{width:100%;max-width:550px;height:auto;aspect-ratio:1317/1800;object-fit:cover;border-radius:50%;box-shadow:0 0 10px rgba(0,0,0,.5);display:block;margin:-50px}
 .home-lower{background:#e9f8f9;padding:0 0 70px}
 .article-section{max-width:1200px;margin:auto;padding:100px 20px 20px;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif}
 .section-label{font-size:13px;letter-spacing:4px;font-weight:700;color:#777;margin-bottom:22px}
 .article-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:26px}
 .article-card{min-width:0;background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.08);transition:all .3s ease}
 .article-card:hover{transform:translateY(-6px);box-shadow:0 20px 45px rgba(0,0,0,.15)}
-.article-thumb{overflow:hidden}.article-thumb img{width:100%;height:auto;display:block;transition:transform .5s}
+.article-thumb{overflow:hidden;aspect-ratio:16/9}.article-thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s}
 .article-card:hover img{transform:scale(1.05)}
 .article-body{padding:20px}.article-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .article-type{font-size:11px;letter-spacing:2px;color:#888;font-weight:700}
@@ -148,12 +148,14 @@ const academicProfiles = [
 }
 @media(max-width:767px){
  .home-hero{min-height:0}.hero-inner{min-height:0;display:flex;flex-direction:column-reverse;padding:0 0 60px}
- .hero-portrait{width:100%;padding:120px 0 0}.hero-portrait img{width:min(70vw,390px);margin:0 0 0 24px}
+ .hero-portrait{width:100%;padding:120px 0 0}.hero-portrait img{width:min(70vw,390px);margin:0 auto}
  .hero-copy{width:100%;padding-top:25px}.hero-copy h1{font-size:45px}
  .hero-divider{margin-bottom:20px}
  .article-section{padding-top:65px}.article-grid{grid-template-columns:1fr}
  .academic-links{flex-direction:column;gap:16px;padding:16px}
  .profile-card{width:100%;flex:none}.profile-card a{aspect-ratio:3/1}
- .fz-card{padding:30px}.fz-title{font-size:32px}.fz-text{font-size:16px}
+ .fz-card{padding:24px;border-radius:18px}.fz-title{font-size:clamp(26px,7vw,32px)}.fz-text{font-size:16px}
 }
+@media(max-width:390px){.hero-copy h1{font-size:clamp(32px,10vw,45px)}.hero-inner{width:calc(100% - 30px)}.article-body{padding:16px}.fz-hero{padding-inline:14px}.fz-card{padding:20px}}
+@media(prefers-reduced-motion:reduce){.article-card,.article-thumb img,.profile-card,.profile-card img{transition:none}.article-card:hover,.profile-card:hover{transform:none}}
 </style>
