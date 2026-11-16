@@ -8,21 +8,21 @@ const coverage = [
     source: 'WIRED',
     title: 'TikTok Stars Are Turning to 24/7 Livestreams for Cash',
     href: 'https://www.wired.com/story/tiktok-live-247-money/',
-    image: 'https://media.wired.com/photos/65136deab59699fef75aa883/3:2/w_2240,c_limit/Tik-Tok-24:7-Livestream-Culture-1405560217.jpg'
+    image: '/media/wired-livestream.jpg'
   },
   {
     kind: 'MEDIA COVERAGE',
     source: 'Forbes',
     title: 'Live Streamers And The Boredom Factor',
     href: 'https://www.forbes.com/sites/tomokoyokoi/2021/08/11/live-streamers-and-the-boredom-factor/?sh=e03c2046ece2',
-    image: 'https://imageio.forbes.com/specials-images/imageserve/611362f7b75fb1c39347ab93/Businessman-holding-paper-airplane/0x0.jpg?width=960&dpr=2'
+    image: '/media/forbes-livestream.jpg'
   },
   {
     kind: 'INTERVIEW ARTICLE',
     source: 'Compliance Corylated',
     title: 'Twitchʼs gamification of prediction markets puts youth at risk',
     href: 'https://www.compliancecorylated.com/news/twitch%ca%bcs-gamification-of-prediction-markets-puts-youth-at-risk/',
-    image: 'https://www.compliancecorylated.com/wp-content/uploads/2026/02/DK-Kalshi.png.webp'
+    image: '/media/compliance-prediction.webp'
   }
 ];
 
@@ -67,7 +67,7 @@ const academicProfiles = [
           <article class="article-card">
             <div class="article-thumb">
               <a href={article.href} target="_blank" rel="noopener noreferrer">
-                <img src={article.image} alt="" loading="lazy" />
+                <img src={previewPath(article.image)} alt="" loading="lazy" />
               </a>
             </div>
             <div class="article-body">
