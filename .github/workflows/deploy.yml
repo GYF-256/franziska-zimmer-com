@@ -16,14 +16,21 @@ jobs:
     steps:
       - name: Check out source
         uses: actions/checkout@v4
-      - name: Install Astro, build site, upload Pages artifact
-        uses: withastro/action@v6
+      - name: Set up Node
+        uses: actions/setup-node@v4
         with:
-          node-version: 24
-          package-manager: npm@latest
-      - name: Verify generated homepage and migrated media
+          node-version: '24'
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Build Astro site
+        run: npm run build
+      - name: Verify homepage, styles and images before upload
+        shell: bash
         run: |
+          set -euo pipefail
           test -s dist/index.html
+          grep -q "Franziska Zimmer" dist/index.html
           grep -q "TikTok Stars Are Turning" dist/index.html
           grep -q "Google Scholar" dist/index.html
           grep -q "I study user behavior in digital systems" dist/index.html
@@ -32,6 +39,19 @@ jobs:
           test -s dist/media/wired-livestream.jpg
           test -s dist/media/forbes-livestream.jpg
           test -s dist/media/compliance-prediction.webp
+          if ! grep -q '<style' dist/index.html && ! grep -q 'stylesheet' dist/index.html; then
+            echo "ERROR: No stylesheet included in generated homepage"
+            exit 1
+          fi
+          if ! grep -Rq 'home-hero' dist/_astro/; then
+            echo "ERROR: Homepage CSS missing from generated CSS assets"
+            exit 1
+          fi
+          echo "Homepage and CSS assets verified"
+      - name: Upload verified Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/
   deploy:
     needs: build
     runs-on: ubuntu-latest
@@ -41,4 +61,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v5
+        uses: actions/deploy-pages@v4
