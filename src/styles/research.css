@@ -1,0 +1,73 @@
+
+/* Reconstructed Research page based on original Elementor page ID 14.
+   Self-contained structural CSS; its original Scholar table CSS is retained in markup. */
+.fz-research{background:#E9F8F9;color:#454F5E;width:100%;overflow:hidden;font-family:Inter,Arial,sans-serif}
+.fz-research,.fz-research *,.fz-research *::before,.fz-research *::after{box-sizing:border-box}
+.fz-research .elementor-14{width:100%;max-width:100%}
+.fz-research .elementor-14>.e-con{display:flex;flex-direction:column;width:100%;max-width:none;min-width:0}
+.fz-research .elementor-14>.e-con>.e-con-inner{max-width:1200px;width:min(calc(100% - 40px),1200px);margin-inline:auto}
+.fz-research .e-con.e-child{min-width:0;display:flex;flex-direction:column}
+.fz-research .elementor-widget,.fz-research .elementor-widget-container{width:100%;max-width:100%;min-width:0}
+.fz-research .elementor-heading-title{margin:0;color:#0F172A;font-family:'Playfair Display',Georgia,serif;font-weight:800;line-height:1.3}
+.fz-research h2.elementor-heading-title{font-size:clamp(35px,4vw,50px)}
+.fz-research a{color:#2997AA}
+.fz-research .elementor-element-172b5ed{min-height:104px}
+.fz-research .elementor-element-ad92617 .elementor-spacer{height:104px}
+.fz-research .elementor-element-e1ba7ae{background:#E9F8F9;min-height:330px;justify-content:center}
+.fz-research .elementor-element-e1ba7ae>.e-con-inner{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:20px}
+.fz-research .elementor-element-c119bb3{display:flex;align-items:flex-start;justify-content:center;min-height:180px}
+.fz-research .elementor-element-c119bb3 h2{font-size:clamp(54px,6vw,83px);line-height:1.15}
+.fz-research .elementor-element-b02f7c6{min-height:170px;display:flex;gap:20px}
+.fz-research .elementor-element-undefined-4d4a9fe{background:#CAE6E8;padding:clamp(50px,7vw,94px) 0}
+.fz-research .elementor-element-undefined-4d4a9fe>.e-con-inner{display:flex;flex-direction:column;gap:38px}
+.fz-research .elementor-element-undefined-b7dc216{text-align:center}
+.fz-research .elementor-element-undefined-b7dc216 h2{color:#0F172A;font-size:clamp(37px,5vw,55px)}
+.fz-research .elementor-element-undefined-53f72bf{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px}
+.fz-research .elementor-element-undefined-53f72bf>.elementor-widget{background:rgba(255,255,255,.88);border:1px solid rgba(15,23,42,.06);border-radius:16px;box-shadow:0 12px 28px rgba(15,23,42,.055);padding:28px 12px;text-align:center}
+.fz-research .elementor-counter{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100px;gap:12px}
+.fz-research .elementor-counter-title{font-size:16px;font-weight:600;letter-spacing:.03em;color:#454F5E}
+.fz-research .elementor-counter-number-wrapper{display:flex;justify-content:center;align-items:baseline;font-family:'Playfair Display',Georgia,serif;font-weight:800;font-size:clamp(30px,4vw,54px);line-height:1.1;color:#3AA6B9}
+.fz-research .elementor-counter-number-prefix:empty{display:none}
+.fz-research .elementor-counter-number-suffix{font-size:.65em}
+.fz-research .elementor-element-296ef40{padding:70px 0 110px;background:#E9F8F9}
+.fz-research .elementor-element-296ef40>.e-con-inner{display:flex;flex-direction:column;gap:45px}
+.fz-research .scholar-card-wrap{max-width:900px;margin:25px auto 36px}
+.fz-research .scholar-card{background:#fff;max-width:100%}
+.fz-research .scholar-img{display:block;margin:auto;width:260px;height:auto}
+.fz-research .scholarWrap{max-width:1100px;margin:15px auto 35px;background:#fff}
+.fz-research .scholarTable{width:100%;border-collapse:collapse}
+.fz-research .scholarTable :is(td,th){overflow-wrap:break-word;vertical-align:top}
+.fz-research .tableWrap{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.fz-research .yearButtons{display:flex;flex-wrap:wrap;gap:8px}
+.fz-research .yearBtn{cursor:pointer}
+.fz-research img{max-width:100%;height:auto}
+@media(max-width:921px){
+ .fz-research .elementor-element-e1ba7ae{min-height:260px}
+ .fz-research .elementor-element-undefined-53f72bf{gap:15px;grid-template-columns:repeat(2,minmax(0,1fr))}
+ .fz-research .elementor-element-undefined-53f72bf>.elementor-widget{padding:24px 8px}
+ .fz-research .elementor-element-296ef40{padding:40px 0 85px}
+}
+@media(max-width:600px){
+ .fz-research .elementor-14>.e-con>.e-con-inner{width:calc(100% - 30px)}
+ .fz-research .elementor-element-172b5ed{min-height:105px}
+ .fz-research .elementor-element-ad92617 .elementor-spacer{height:105px}
+ .fz-research .elementor-element-e1ba7ae{min-height:215px}
+ .fz-research .elementor-element-e1ba7ae>.e-con-inner{display:flex;flex-direction:column;justify-content:center;gap:0}
+ .fz-research .elementor-element-c119bb3{min-height:120px;justify-content:center}
+ .fz-research .elementor-element-c119bb3 h2{font-size:clamp(43px,12vw,58px)}
+ .fz-research .elementor-element-b02f7c6{display:none}
+ .fz-research .elementor-element-undefined-4d4a9fe{padding:40px 0}
+ .fz-research .elementor-element-undefined-4d4a9fe>.e-con-inner{gap:25px}
+ .fz-research .elementor-element-undefined-53f72bf{gap:10px}
+ .fz-research .elementor-element-undefined-53f72bf>.elementor-widget{padding:19px 8px}
+ .fz-research .elementor-counter-title{font-size:14px}
+ .fz-research .elementor-counter-number-wrapper{font-size:clamp(25px,8vw,35px)}
+ .fz-research .elementor-element-296ef40{padding:30px 0 60px}
+ .fz-research .elementor-element-296ef40>.e-con-inner{gap:25px}
+ .fz-research .scholar-card{padding:22px 12px}
+ .fz-research .scholarWrap{padding:12px}
+ .fz-research .scholarTable{min-width:660px}
+}
+@media(prefers-reduced-motion:reduce){
+ .fz-research .scholar-card,.fz-research .scholar-img,.fz-research .scholar-btn{transition:none}
+}
