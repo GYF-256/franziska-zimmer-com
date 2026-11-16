@@ -1,33 +1,31 @@
-# WordPress to Astro migration progress
+# WordPress → Astro: status and verification
 
-## Completed
-- [x] Export WordPress content: `franziskazimmer.WordPress.2026-11-16.xml`.
-- [x] Inspect backup media ZIP and exclude WordPress cache, JSON, log, PHP, and settings files.
-- [x] Import **15 published pages** (5 each in EN, DE, JA), and **144 published EN posts** into `src/data/import-*.json`.
-- [x] Exclude **3 private pages**.
-- [x] Build Astro page routes for original public WordPress URLs.
-- [x] Add multilingual navigation and equivalents for Home/About/Research/Contact/Privacy.
-- [x] Add canonical tags, sitemap, robots.txt, blog index, and custom 404.
-- [x] Add a secure, one-time media import workflow.
+## Source inspection completed
 
-## Required before DNS cutover
-- [ ] Upload only `franziska-public-media.zip` from the ChatGPT conversation to the repository, with GitHub filename `migration-media.zip`.
-- [ ] Run `Import vetted WordPress media (one-time)` in Actions.
-- [ ] Confirm GitHub Pages source is set to **GitHub Actions**.
-- [ ] Verify `Deploy Astro to GitHub Pages` build completes and site works.
-- [ ] Compare the 15 imported static pages with the WordPress site; Elementor/shortcode styling will not transfer exactly.
-- [ ] Review article permalinks, navigation, 404, sitemap, structured metadata, SEO and internal links.
-- [ ] Verify all 10 selected images load on the GitHub Pages deployment.
-- [ ] Replace WordPress SureForms contact form with an appropriate static-compatible form or verified contact link.
-- [ ] Check external embeds for availability and privacy implications.
-- [ ] Verify custom domain and SSL; only then change Cloudflare DNS.
-- [ ] Preserve DNS MX/SPF/DKIM/DMARC records and any services depending on Sakura.
-- [ ] Retain Sakura and private backups until migration is verified.
+- WordPress XML (2026-11-16): 215 export objects, including 144 published posts, 15 published pages, 3 private pages, and 16 media attachment records.
+- Imported only the **159 public post/page records**. The three private pages are excluded.
+- Published pages per locale: EN 5, DE 5, JA 5.
+- The nine images used by the published page content and an additional favicon were found in the uploaded media ZIP. Their hashes are embedded in the approved media importer.
+- Original WordPress permalinks are carried over; verified page equivalences are included as `hreflang` alternates.
+- Imported WordPress form shortcode does not work in static hosting and is replaced with a translated notice.
+- Sitemap, robots.txt, blog listing, custom 404, and responsive styling are implemented.
 
-## Media ZIP content
+## Media importer
 
-Selected 10 published media assets referenced by the exported public pages, including favicon. Original archive remains private; public ZIP contains only selected JPG/PNG/JPEG files.
+The GitHub workflow `.github/workflows/import-media.yml` runs when `scripts/import-media.py` changes or is manually dispatched. It downloads and verifies only ten explicit public image URLs, commits them into the repository, then builds/deploys. If the old site blocks GitHub Actions, the fallback is to upload **only** `franziska-public-media.zip` as `migration-media.zip` in the repo root and manually rerun the same workflow. Never upload the original full ZIP or XML to the public repository.
 
-## Notes
+## Before DNS cutover
 
-WordPress PHP, plugins, admin backend, comment handling, and forms are not provided by GitHub Pages. Static page content may contain older CSS and external URLs that require visual review. Links to URLs not present in the WordPress export need separate review. All edits are being made to the repository; no production DNS change has been made.
+- [ ] Confirm the media import workflow completed and ten images are present in `public/wp-content/uploads/`.
+- [ ] Set **Settings → Pages → Source: GitHub Actions**.
+- [ ] Confirm a green deployment in **Actions → Deploy Astro to GitHub Pages** or the successful media-import deploy job.
+- [ ] Check all 15 multilingual pages for typography, text, and navigation.
+- [ ] Spot-check articles and blog index. Verify that the old WordPress permalink paths work.
+- [ ] Review page titles/canonical/hreflang, sitemap and robots.txt.
+- [ ] Replace the disabled SureForms contact form with a static-compatible contact method.
+- [ ] Check external images, embeds and outbound links; original Elementor appearance may differ.
+- [ ] Confirm no links or media remain dependent on Sakura before cancellation.
+- [ ] Verify GitHub Pages custom-domain setup and HTTPS; then update Cloudflare DNS without changing MX/SPF/DKIM/DMARC.
+- [ ] Keep the old WordPress server/backups until the new production site has been reviewed.
+
+Current Cloudflare DNS and the old WordPress site have **not** been changed by this migration.
