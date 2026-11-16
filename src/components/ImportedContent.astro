@@ -11,21 +11,41 @@ const notices = {
   de: 'Das bisherige WordPress-Kontaktformular ist auf dieser statischen Website noch nicht verfügbar.',
   ja: '旧WordPressのお問い合わせフォームは、静的サイトへの移行後はまだ利用できません。'
 };
+const kind = ['/','/de/','/ja/'].includes(item.path) ? 'home' : /(?:about|ueber-mich|profile)\/$/.test(item.path) ? 'about' : /(?:research|forschung|kenkyu)\/$/.test(item.path) ? 'research' : /(?:contact|kontakt|form)\/$/.test(item.path) ? 'contact' : 'standard';
 const body = rewriteImportedHtml(item.html.replace(/<p class="form-notice">[\s\S]*?<\/p>/g, '<p class="form-notice">' + (notices[item.lang] || notices.en) + '</p>'));
 ---
 <BaseLayout title={item.title === 'Home' ? 'Franziska Zimmer' : item.title + ' | Franziska Zimmer'} description={item.description} lang={item.lang} alternates={translationsFor(item.path)}>
-  <article class:list={['imported-article', { 'is-post': post }]}>
+  <article class:list={['imported-article', 'content-' + kind, { 'is-post': post }]}>
     {post && <header class="post-intro"><p class="eyebrow">Blog</p><h1>{item.title}</h1>{item.date && <time datetime={item.date}>{item.date}</time>}</header>}
     {!post && !containsH1 && <h1>{item.title}</h1>}
     <div class="imported-body" set:html={body} />
     {post && <p class="back"><a href={previewPath("/blog/")}>← Back to blog</a></p>}
   </article>
 </BaseLayout>
-<style>
+<style is:global>
 .imported-article {max-width:100%;min-width:0}
 .post-intro {margin-bottom:2.5rem}
 .post-intro h1 {font-size:clamp(1.8rem,4.5vw,3rem)}
 .post-intro time {color:#64748b;font-size:.9rem}
 .eyebrow {font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#4b5fab}
 .back {margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e2e8f0}
+
+/* Rebuild visual hierarchy lost when WordPress exported Elementor text without its containers. */
+.imported-article:not(.is-post){width:100%;max-width:1100px;margin-inline:auto}
+.imported-article:not(.is-post)>.imported-body{background:#fff;border-radius:20px;padding:clamp(22px,4.5vw,64px);box-shadow:0 12px 45px rgba(15,23,42,.055);line-height:1.85}
+.imported-article:not(.is-post)>.imported-body>h1:first-child{margin:0 0 1.3rem}
+.imported-article:not(.is-post)>.imported-body h2{margin-top:2.5rem}
+.imported-article:not(.is-post)>.imported-body h3{font-size:clamp(1.25rem,2.1vw,1.85rem);line-height:1.5}
+.imported-article:not(.is-post)>.imported-body h6{font-size:1rem;color:#3aa6b9;text-transform:uppercase;letter-spacing:.12em;margin-bottom:.7rem}
+.imported-article:not(.is-post)>.imported-body a{color:#2997aa;text-decoration:underline;text-underline-offset:3px}
+.imported-article:not(.is-post)>.imported-body img{display:block;object-fit:contain;border-radius:16px;margin:1.25rem auto;max-height:640px}
+.content-about>.imported-body>img:first-of-type,.content-about>.imported-body>p:first-of-type img{width:min(100%,420px);border-radius:28px}
+.content-research>.imported-body .scholar-card,.content-research>.imported-body .article-card{background:#fff;border-radius:18px;box-shadow:0 8px 26px #0f172a12}
+.content-contact>.imported-body>img:first-of-type,.content-contact>.imported-body>p:first-of-type img{width:min(100%,450px)}
+.content-home>.imported-body>h1:first-of-type{font-size:clamp(3rem,6vw,5.2rem);margin-top:0}
+.content-home>.imported-body>img:first-of-type,.content-home>.imported-body>p:first-of-type img{width:min(100%,480px);border-radius:500px;box-shadow:0 22px 50px #0f172a22}
+.content-home>.imported-body{background:linear-gradient(150deg,#e9f8f9 0%,#fff 65%);border:0}
+.content-home>.imported-body .article-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:24px}
+.imported-article:not(.is-post)>.imported-body :where(p,li){font-size:clamp(15px,1.5vw,17px)}
+@media(max-width:700px){.imported-article:not(.is-post)>.imported-body{padding:22px 18px;border-radius:14px}.imported-article:not(.is-post)>.imported-body h1{font-size:clamp(2.3rem,10vw,3.3rem)}}
 </style>
