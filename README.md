@@ -11,9 +11,9 @@ Astro v6 static website migrated from the published WordPress content, for GitHu
 - English/German/Japanese navigation, verified page translations, blog listing, canonical metadata, sitemap and robots.txt.
 - The WordPress form shortcode has been replaced with a localized notice. A new static-compatible contact method is still required.
 
-## Images: automatic import or fallback ZIP
+## Images: imported and verified
 
-The one-time workflow **Actions → Import vetted WordPress media (one-time)** downloads exactly ten already-published photos/logos from the existing WordPress site. Every image is checked against the original ZIP backup using its SHA-256 hash before it is committed to `public/wp-content/uploads/`. A change to the import script triggers the workflow automatically; it can also be run manually.
+The one-time GitHub Actions import succeeded: **all ten publicly referenced images were downloaded from WordPress, verified against the uploaded backup using SHA-256, and committed into `public/wp-content/uploads/`.** No manual ZIP upload is needed. The guarded importer remains available for re-runs.
 
 If GitHub Actions cannot access the old site, download `franziska-public-media.zip` from the ChatGPT conversation. In GitHub's web interface, choose **Add file → Upload files**, upload it at repository root as `migration-media.zip`, and commit. Then rerun the media import workflow. Never upload the original `uploads.zip` containing plugin caches or logs.
 
@@ -26,6 +26,12 @@ The media importer needs repository write permission for workflows. If it fails 
 ## Browser-only maintenance
 
 Use https://github.dev/GYF-256/franziska-zimmer-com with GitHub Copilot Free, commit files via Source Control, and let GitHub Actions run the builds. No local installation is required.
+
+## Additional migration checks
+
+- `scripts/validate-content.mjs` runs automatically before every Astro build, checking 159 unique published URLs and the ten local image files.
+- `docs/URL_AUDIT.md` lists every imported permalink for SEO and visual verification.
+- **GitHub Pages deployment status must still be checked in Actions and Settings → Pages.** A successful Git commit is not proof of published site deployment.
 
 ## Security / remaining work
 
