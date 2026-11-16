@@ -19,7 +19,8 @@ const originalPath = basePath !== '/' && current.startsWith(basePath) ? '/' + cu
 const canonical = new URL(originalPath, productionOrigin).toString();
 const isHome = ['/', '/de/', '/ja/'].includes(originalPath);
 const isOriginalAbout = originalPath === '/about/';
-const usesOverlayHeader = isHome || isOriginalAbout;
+const isOriginalResearch = originalPath === '/research/';
+const usesOverlayHeader = isHome || isOriginalAbout || isOriginalResearch;
 const privacyLinks = {en:'/privacy-policy/',de:'/de/datenschutzerklaerung/',ja:'/ja/privacypolicy/'};
 const homeLinks = {en:'/',de:'/de/',ja:'/ja/'};
 ---
@@ -78,7 +79,7 @@ const homeLinks = {en:'/',de:'/de/',ja:'/ja/'};
         </details>
       </div>
     </header>
-    <main class={isHome || isOriginalAbout ? 'home-main' : 'shell page-main'} id="main"><slot /></main>
+    <main class={isHome || isOriginalAbout || isOriginalResearch ? 'home-main' : 'shell page-main'} id="main"><slot /></main>
     <footer class="site-footer">
       <nav class="footer-nav" aria-label="Footer menu">
         <a href={previewPath(homeLinks[locale])}>{locale === 'ja' ? 'ホーム' : locale === 'de' ? 'Startseite' : 'Home'}</a>
