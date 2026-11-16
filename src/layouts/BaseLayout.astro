@@ -26,7 +26,7 @@ const homeLinks = {en:'/',de:'/de/',ja:'/ja/'};
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#ffffff" />
+    <meta name="theme-color" content="#E9F8F9" />
     <link rel="canonical" href={canonical} />
     <link rel="icon" href={previewPath("/wp-content/uploads/2026/03/cropped-logo2-32x32.png")} sizes="32x32" />
     {alternates.map((entry) => <link rel="alternate" hreflang={entry.lang} href={new URL(entry.href, productionOrigin).toString()} />)}
@@ -35,7 +35,7 @@ const homeLinks = {en:'/',de:'/de/',ja:'/ja/'};
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <title>{title}</title>
-  </head>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />\n    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />\n    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;800&display=swap" rel="stylesheet" />\n  </head>
   <body>
     <a class="skip" href="#main">Skip to content</a>
     <header class="site-header">
@@ -58,28 +58,28 @@ const homeLinks = {en:'/',de:'/de/',ja:'/ja/'};
   </body>
 </html>
 <style is:global>
-:root{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#172940;background:#fff;line-height:1.75}
+:root{font-family:Inter,Arial,sans-serif;color:#454F5E;background:#E9F8F9;line-height:1.65;--ast-global-color-0:#3AA6B9;--ast-global-color-1:#2997AA;--ast-global-color-2:#0F172A;--ast-global-color-3:#454F5E;--ast-global-color-4:#E9F8F9;--ast-global-color-5:#fff;--ast-global-color-6:#CAE6E8}
 *,*::before,*::after{box-sizing:border-box}
 html{scroll-behavior:smooth}body{margin:0;min-width:0}
 img,video,iframe,svg{max-width:100%;height:auto}
-a{color:#274e90;overflow-wrap:anywhere}a:hover{color:#496ed3}
-.shell{width:min(100% - 2rem,1080px);margin-inline:auto}
-.site-header{border-bottom:1px solid #e5eaf2;background:#fff}
+a{color:#0F172A;overflow-wrap:anywhere}a:hover{color:#2997AA}
+.shell{width:min(100% - 2rem,1200px);margin-inline:auto}
+.site-header{border-bottom:1px solid #CAE6E8;background:#fff}
 .header-wrap{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.25rem;padding-block:1.35rem}
-.brand{text-decoration:none;color:#172940;font-size:1.25rem;font-weight:760;line-height:1.3}
+.brand{text-decoration:none;color:#0F172A;font-size:1.25rem;font-weight:760;line-height:1.3}
 .brand span{font-size:.7rem;display:block;letter-spacing:.08em;color:#697587;text-transform:uppercase;font-weight:550}
 .nav{display:flex;align-items:center;gap:clamp(.7rem,2vw,1.5rem);flex-wrap:wrap}
-.nav a{color:#334258;text-decoration:none;font-size:.94rem}
-.nav a[aria-current="page"]{font-weight:750;color:#1f4f99;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:7px}
+.nav a{color:#0F172A;text-decoration:none;font-size:.94rem}
+.nav a[aria-current="page"]{font-weight:750;color:#3AA6B9;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:7px}
 .lang-nav{display:flex;gap:.35rem;align-items:center}
 .lang-nav a{border:1px solid #d6dfed;border-radius:6px;padding:.15rem .43rem;font-size:.7rem;text-decoration:none}
-.lang-nav a[aria-current="true"]{background:#eaf0ff;color:#183d82;border-color:#aabde9;font-weight:700}
-main.shell{min-height:68vh;padding-block:3rem 5rem}
-h1{font-size:clamp(2rem,5vw,3.6rem);line-height:1.17;letter-spacing:-.03em}
-h2{font-size:clamp(1.4rem,3.5vw,2rem);line-height:1.35}
-h3{font-size:clamp(1.1rem,2.8vw,1.55rem)}
+.lang-nav a[aria-current="true"]{background:#E9F8F9;color:#0F172A;border-color:#3AA6B9;font-weight:700}
+main.shell{min-height:68vh;padding-block:3rem 5rem;background:#fff}
+h1{font-family:"Playfair Display",Georgia,serif;color:#0F172A;font-size:clamp(2.8rem,6vw,5.1875rem);font-weight:800;line-height:1.4}
+h2{font-family:"Playfair Display",Georgia,serif;color:#0F172A;font-size:clamp(2rem,4vw,3.125rem);font-weight:800;line-height:1.3}
+h3{font-family:"Playfair Display",Georgia,serif;color:#0F172A;font-size:clamp(1.5rem,3vw,2.1875rem);font-weight:800}
 p,li{line-height:1.85}
-.site-footer{border-top:1px solid #e3e8ef;color:#657288;font-size:.87rem}
+.site-footer{border-top:1px solid #CAE6E8;background:#fff;color:#454F5E;font-size:.87rem}
 .footer-inner{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;padding-block:1.8rem}
 .skip{position:absolute;left:-9999px}.skip:focus{left:1rem;top:.5rem;z-index:99;background:#fff;border:2px solid #172940;padding:.3rem}
 .imported-body{overflow-wrap:anywhere;min-width:0}
