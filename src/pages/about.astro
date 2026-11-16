@@ -1,6 +1,19 @@
 ---
-import ImportedContent from '../components/ImportedContent.astro';
-import { getByPath } from '../lib/content.js';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getByPath, translationsFor } from '../lib/content.js';
+import { rewriteImportedHtml } from '../lib/paths.js';
+import aboutMarkup from '../data/about-original.html?raw';
+import '../styles/about.css';
+
 const item = getByPath('/about/');
+if (!item) throw new Error('English About page not found in WordPress export');
+const body = rewriteImportedHtml(aboutMarkup);
 ---
-<ImportedContent item={item} />
+<BaseLayout
+  title="About | Franziska Zimmer"
+  description={item.description}
+  lang="en"
+  alternates={translationsFor(item.path)}
+>
+  <div class="fz-about" set:html={body} />
+</BaseLayout>
