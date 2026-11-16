@@ -5,7 +5,7 @@
 - WordPress XML (2026-11-16): 215 export objects, including 144 published posts, 15 published pages, 3 private pages, and 16 media attachment records.
 - Imported only the **159 public post/page records**. The three private pages are excluded.
 - Published pages per locale: EN 5, DE 5, JA 5.
-- The nine images used by the published page content and an additional favicon were found in the uploaded media ZIP. Their hashes are embedded in the approved media importer.
+- All ten selected images (nine page assets and the favicon) were successfully committed to `public/wp-content/uploads/` by the automated import workflow. GitHub file existence was independently verified. The importer enforces exact SHA-256 hashes.
 - Original WordPress permalinks are carried over; verified page equivalences are included as `hreflang` alternates.
 - Imported WordPress form shortcode does not work in static hosting and is replaced with a translated notice.
 - Sitemap, robots.txt, blog listing, custom 404, and responsive styling are implemented.
@@ -16,7 +16,7 @@ The GitHub workflow `.github/workflows/import-media.yml` runs when `scripts/impo
 
 ## Before DNS cutover
 
-- [ ] Confirm the media import workflow completed and ten images are present in `public/wp-content/uploads/`.
+- [x] Confirm the media import workflow committed ten images to `public/wp-content/uploads/`.
 - [ ] Set **Settings → Pages → Source: GitHub Actions**.
 - [ ] Confirm a green deployment in **Actions → Deploy Astro to GitHub Pages** or the successful media-import deploy job.
 - [ ] Check all 15 multilingual pages for typography, text, and navigation.
