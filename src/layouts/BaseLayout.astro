@@ -1,12 +1,90 @@
 ---
-const { title = 'Franziska Zimmer', description = 'Academic website of Franziska Zimmer', lang = 'en' } = Astro.props;
-const links = [{href:'/',name:'Home'},{href:'/about/',name:'About'},{href:'/research/',name:'Research'},{href:'/contact/',name:'Contact'}];
+const {
+  title = 'Franziska Zimmer',
+  description = 'Academic website of Franziska Zimmer',
+  lang = 'en',
+  alternates = []
+} = Astro.props;
+const locale = ['en','de','ja'].includes(lang) ? lang : 'en';
+const menus = {
+ en: [{name:'Home',href:'/'},{name:'About',href:'/about/'},{name:'Research',href:'/research/'},{name:'Blog',href:'/blog/'},{name:'Contact',href:'/contact/'}],
+ de: [{name:'Startseite',href:'/de/'},{name:'Über mich',href:'/de/ueber-mich/'},{name:'Forschung',href:'/de/forschung/'},{name:'Blog',href:'/blog/'},{name:'Kontakt',href:'/de/kontakt/'}],
+ ja: [{name:'ホーム',href:'/ja/'},{name:'プロフィール',href:'/ja/profile/'},{name:'研究実績',href:'/ja/kenkyu/'},{name:'ブログ',href:'/blog/'},{name:'お問い合わせ',href:'/ja/form/'}]
+};
+const current = Astro.url.pathname;
+const canonical = new URL(current, Astro.site).toString();
+const privacyLinks = {en:'/privacy-policy/',de:'/de/datenschutzerklaerung/',ja:'/ja/privacypolicy/'};
+const homeLinks = {en:'/',de:'/de/',ja:'/ja/'};
 ---
 <!doctype html>
-<html lang={lang}>
-<head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><meta name="description" content={description} /><link rel="canonical" href={new URL(Astro.url.pathname, Astro.site).toString()} /><title>{title}</title></head>
-<body><header class="shell"><a class="brand" href="/">Franziska Zimmer</a><nav aria-label="Main navigation">{links.map(link => <a href={link.href} aria-current={Astro.url.pathname === link.href ? 'page' : undefined}>{link.name}</a>)}</nav></header><main class="shell"><slot /></main><footer class="shell">© {new Date().getFullYear()} Franziska Zimmer</footer></body>
+<html lang={locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#ffffff" />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/wp-content/uploads/2026/03/cropped-logo2-32x32.png" sizes="32x32" />
+    {alternates.map((entry) => <link rel="alternate" hreflang={entry.lang} href={new URL(entry.href, Astro.site).toString()} />)}
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="shell header-wrap">
+        <a class="brand" href={homeLinks[locale]}>Franziska Zimmer<span>Information Science · HCI</span></a>
+        <nav class="nav" aria-label="Main navigation">
+          {menus[locale].map(link => <a href={link.href} aria-current={current === link.href ? 'page' : undefined}>{link.name}</a>)}
+        </nav>
+        <div class="lang-nav" aria-label="Language choices">
+          {(['en','de','ja']).map((language) => {
+            const equivalent = alternates.find(a => a.lang === language);
+            const target = equivalent?.href ?? homeLinks[language];
+            return <a href={target} lang={language} aria-label={'Language: ' + language} aria-current={locale === language ? 'true' : undefined}>{language.toUpperCase()}</a>
+          })}
+        </div>
+      </div>
+    </header>
+    <main class="shell" id="main"><slot /></main>
+    <footer class="site-footer"><div class="shell footer-inner"><span>© {new Date().getFullYear()} Franziska Zimmer</span><a href={privacyLinks[locale]}>{locale === 'ja' ? 'プライバシーポリシー' : locale === 'de' ? 'Datenschutz' : 'Privacy Policy'}</a></div></footer>
+  </body>
 </html>
 <style is:global>
-:root{font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#18243b;background:#fff;line-height:1.7}*{box-sizing:border-box}body{margin:0}a{color:#1767a3}.shell{width:min(100% - 2rem,980px);margin-inline:auto}header{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:1rem;padding-block:1.5rem;border-bottom:1px solid #e5eaf0}.brand{font-weight:750;font-size:1.3rem;text-decoration:none;color:#18243b}nav{display:flex;gap:1rem;flex-wrap:wrap}nav a{text-decoration:none}nav a[aria-current=page]{font-weight:700;text-decoration:underline}main{min-height:65vh;padding-block:3.5rem}h1{font-size:clamp(2rem,5vw,3.5rem);line-height:1.15}p{max-width:70ch}footer{padding-block:2rem;border-top:1px solid #e5eaf0;color:#64748b;font-size:.9rem}
+:root{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#172940;background:#fff;line-height:1.75}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}body{margin:0;min-width:0}
+img,video,iframe,svg{max-width:100%;height:auto}
+a{color:#274e90;overflow-wrap:anywhere}a:hover{color:#496ed3}
+.shell{width:min(100% - 2rem,1080px);margin-inline:auto}
+.site-header{border-bottom:1px solid #e5eaf2;background:#fff}
+.header-wrap{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.25rem;padding-block:1.35rem}
+.brand{text-decoration:none;color:#172940;font-size:1.25rem;font-weight:760;line-height:1.3}
+.brand span{font-size:.7rem;display:block;letter-spacing:.08em;color:#697587;text-transform:uppercase;font-weight:550}
+.nav{display:flex;align-items:center;gap:clamp(.7rem,2vw,1.5rem);flex-wrap:wrap}
+.nav a{color:#334258;text-decoration:none;font-size:.94rem}
+.nav a[aria-current="page"]{font-weight:750;color:#1f4f99;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:7px}
+.lang-nav{display:flex;gap:.35rem;align-items:center}
+.lang-nav a{border:1px solid #d6dfed;border-radius:6px;padding:.15rem .43rem;font-size:.7rem;text-decoration:none}
+.lang-nav a[aria-current="true"]{background:#eaf0ff;color:#183d82;border-color:#aabde9;font-weight:700}
+main.shell{min-height:68vh;padding-block:3rem 5rem}
+h1{font-size:clamp(2rem,5vw,3.6rem);line-height:1.17;letter-spacing:-.03em}
+h2{font-size:clamp(1.4rem,3.5vw,2rem);line-height:1.35}
+h3{font-size:clamp(1.1rem,2.8vw,1.55rem)}
+p,li{line-height:1.85}
+.site-footer{border-top:1px solid #e3e8ef;color:#657288;font-size:.87rem}
+.footer-inner{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;padding-block:1.8rem}
+.skip{position:absolute;left:-9999px}.skip:focus{left:1rem;top:.5rem;z-index:99;background:#fff;border:2px solid #172940;padding:.3rem}
+.imported-body{overflow-wrap:anywhere;min-width:0}
+.imported-body img{max-width:100%;height:auto;border-radius:5px}
+.imported-body table{display:block;max-width:100%;overflow-x:auto;border-collapse:collapse}
+.imported-body td,.imported-body th{border:1px solid #dbe2eb;padding:.6rem}
+.imported-body pre,.imported-body code{max-width:100%;overflow-x:auto;white-space:pre-wrap;overflow-wrap:anywhere}
+.imported-body .form-notice{border-left:4px solid #3c6ec0;padding:.85rem 1rem;background:#f3f7ff}
+.imported-body .wp-block-separator{border:0;border-top:1px solid #e6eaf1;margin:2rem 0}
+.imported-body section{max-width:100%}
+@media(max-width:760px){.header-wrap{justify-content:flex-start}.brand{width:100%}.nav{width:100%;justify-content:flex-start}.lang-nav{width:100%}main.shell{padding-top:2rem}}
 </style>
